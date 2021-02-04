@@ -24,6 +24,7 @@ export interface Props {
   dataLength: number;
   initialScrollY?: number;
   className?: string;
+  scrollThrottle?: number;
 }
 
 interface State {
@@ -40,9 +41,10 @@ export default class InfiniteScroll extends Component<Props, State> {
       pullToRefreshThresholdBreached: false,
     };
 
-    this.throttledOnScrollListener = throttle(150, this.onScrollListener).bind(
-      this
-    );
+    this.throttledOnScrollListener = throttle(
+      this.props.scrollThrottle || 150,
+      this.onScrollListener
+    ).bind(this);
     this.onStart = this.onStart.bind(this);
     this.onMove = this.onMove.bind(this);
     this.onEnd = this.onEnd.bind(this);
